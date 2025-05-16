@@ -1,0 +1,866 @@
+<article class="lesson-content">
+  <!-- TÍTULO DA AULA -->
+  <h2><i class="fas fa-code"></i> Funções e Estruturação do Código</h2>
+
+  <!-- INTRODUÇÃO -->
+  <div class="intro-box mb-5">
+    <p>
+      Nesta aula, vamos explorar como declarar e invocar funções em JavaScript,
+      utilizando a sintaxe tradicional, expressões de função, arrow functions e
+      IIFE (funções auto-invocadas). Também abordaremos conceitos essenciais
+      como parâmetros, retorno de valores, escopo, hoisting, closures e funções
+      de ordem superior. Tudo isso será apresentado de forma modular e com
+      exemplos simples para facilitar o entendimento.
+    </p>
+  </div>
+
+  <blockquote>
+    <p>
+      "O código bem estruturado é a chave para soluções elegantes." - Anônimo
+    </p>
+  </blockquote>
+
+  <!-- EXPLICAÇÃO BÁSICA SOBRE FUNÇÕES -->
+    <section class="mb-5">
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>O que é uma Função em JavaScript?</h4>
+    <p>
+      Em JavaScript, uma função é um bloco de código que pode ser definido uma vez e executado sempre que necessário. Ela é usada para <strong>organizar, reutilizar e estruturar</strong> o código de maneira eficiente.
+    </p>
+    <p>
+      Podemos pensar em uma função como uma “máquina” que recebe dados de entrada (os parâmetros), realiza alguma operação, e pode (ou não) devolver um resultado (retorno).
+    </p>
+    <p>
+      A estrutura básica de uma função declarada é:
+    </p>
+
+    <img
+      src="assets/images/function.png"
+      alt="Estrutura de uma função em JavaScript"
+      class="img-fluid rounded shadow my-3"
+      style="max-width: 100%; height: auto"
+    />
+    <br/>
+    <p>
+      <strong>Explicando a imagem:</strong>
+      <ul>
+        <li><strong>Palavra-chave <code>function</code></strong>: Indica que estamos criando uma função.</li>
+        <li><strong>Nome da função</strong>: Deve ser descritivo e sem espaços (ex: <code>calcularMedia</code>).</li>
+        <li><strong>Parênteses <code>()</code></strong>: Usados para listar os parâmetros que a função pode receber.</li>
+        <li><strong>Parâmetros</strong>: São os dados de entrada que a função pode usar internamente.</li>
+        <li><strong>Chaves <code>{ }</code></strong>: Delimitam o corpo da função, ou seja, o bloco de código que será executado quando a função for chamada.</li>
+      </ul>
+    </p>
+
+    <p>
+      Exemplo simples de função:
+    </p>
+    <pre><code>function saudacao(nome) {
+  return `Olá, ${nome}!`;
+}
+
+console.log(saudacao("Lucas")); // Saída: Olá, Lucas!
+</code></pre>
+  </div>
+</div>
+</section>
+  <!-- Seção 1: Declaração e Chamada de Funções -->
+  <section class="mb-5">
+    <h3 class="section-title with-icon">
+      <i class="fas fa-play"></i> 1. Declaração e Chamada de Funções
+    </h3>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4>Hoisting (Elevação)</h4>
+
+        <p>
+          Nesta seção, vamos entender como declarar e chamar funções no
+          JavaScript, e o que acontece "nos bastidores" quando o código é
+          executado.
+        </p>
+
+        <p class="mt-4">
+          <strong>Visualização do conceito:</strong>
+          A imagem abaixo representa o comportamento de hoisting com uma
+          analogia de hotel:
+        </p>
+        <img
+          src="assets/images/hoisting.png"
+          alt="Ilustração didática de hoisting em JavaScript com analogia de hotel"
+          class="img-fluid rounded shadow mt-3"
+          style="max-width: 100%; height: auto"
+        />
+
+        <br />
+
+        <p>
+          Imagine um hotel com vários andares. Ao chegar, o recepcionista já
+          sabe que você tem reserva (mesmo que não saiba todos os detalhes
+          ainda). No JavaScript, algo parecido acontece com algumas declarações:
+          o mecanismo de <strong>hoisting</strong> “eleva” certas informações
+          para o topo do código, como se o JavaScript estivesse dizendo “Ah,
+          isso vai ser usado depois, então já vou reservar um espaço aqui”.
+        </p>
+
+        <p>Existem dois tipos principais de hoisting:</p>
+        <ul>
+          <li>
+            <strong>Funções declaradas</strong> (usando <code>function</code>):
+            são elevadas por completo — nome e corpo da função. Você pode
+            chamá-las mesmo antes de escrevê-las no código.
+          </li>
+          <li>
+            <strong>Expressões de função</strong> (funções dentro de variáveis):
+            o nome da variável pode até ser hoisted, mas seu valor (a função)
+            ainda não existe no momento. Tentar usá-la antes da definição causa
+            erro.
+          </li>
+        </ul>
+
+        <h5>Analogia com a vida real:</h5>
+        <p>
+          Declarar uma função com <code>function</code> é como reservar um
+          quarto de hotel com antecedência — quando você chega, o quarto está
+          pronto e disponível.<br />
+          Já declarar uma função como expressão (<code
+            >const despedir = function() {...}</code
+          >) é como tentar usar um quarto sem ter feito reserva — vai dar erro
+          até você passar pela recepção e fazer o check-in.
+        </p>
+
+        <h4>Hoisting de Variáveis: var vs. let/const</h4>
+        <p>
+          As variáveis também são “elevadas”, mas com uma diferença importante:
+        </p>
+        <ul>
+          <li>
+            <code>var</code>: o nome da variável é elevado e ela é
+            automaticamente inicializada com <code>undefined</code>. Ou seja,
+            você pode usá-la antes da linha onde foi definida, mas vai receber
+            <code>undefined</code>.
+          </li>
+          <li>
+            <code>let</code> e <code>const</code>: também são elevadas, mas não
+            inicializadas. Isso cria a <strong>temporal dead zone</strong> (zona
+            morta), que é o intervalo entre o início do escopo e a linha onde a
+            variável é definida. Tentar acessá-la nesse período gera erro.
+          </li>
+        </ul>
+
+        <h5>Analogia com a vida real:</h5>
+        <p>
+          Usar <code>var</code> é como chegar a um quarto de hotel improvisado —
+          ele existe, mas está vazio (undefined).<br />
+          Já com <code>let</code> e <code>const</code>, você não pode nem abrir
+          a porta até que ele esteja oficialmente liberado. Se tentar forçar
+          entrada antes da hora, o sistema de segurança dispara (erro).
+        </p>
+
+        <div class="code-header">
+          Exemplo: Função Declarada (Sofre Hoisting)
+        </div>
+        <pre><code>
+// A função "saudar" é declarada e sofre hoisting.
+function saudar(nome) {
+  // Retorna uma mensagem personalizada
+  return `Olá, ${nome}! Bem-vindo ao TaskMaster.`;
+}
+
+const mensagem = saudar("Maria");
+console.log(mensagem); // Saída: Olá, Maria! Bem-vindo ao TaskMaster.
+</code></pre>
+
+        <div class="code-header">
+          Exemplo: Expressão de Função (Não Sofre Hoisting)
+        </div>
+        <pre><code>
+// Vai gerar erro: Cannot access 'despedir' before initialization
+console.log(despedir("João"));
+
+const despedir = function(nome) {
+  // Retorna mensagem de despedida
+  return `Até logo, ${nome}! Volte sempre ao TaskMaster.`;
+};
+</code></pre>
+
+        <div class="code-header">Exemplo: Hoisting em Funções Declaradas</div>
+        <pre><code>
+// A função "somarDeclarada" pode ser chamada antes de sua definição
+console.log(somarDeclarada(5, 3)); // Saída: 8
+
+function somarDeclarada(a, b) {
+  return a + b;
+}
+</code></pre>
+
+        <div class="code-header">Exemplo: Variáveis com var vs. let</div>
+        <pre><code>
+// Variável declarada com var é hoisted e inicializada com undefined
+console.log(xVar); // Saída: undefined
+var xVar = 10;
+
+// Variável declarada com let é hoisted, mas não inicializada (zona morta)
+console.log(xLet); // Erro: Cannot access 'xLet' before initialization
+let xLet = 20;
+</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção 2: Parâmetros e Argumentos -->
+  <section class="mb-5">
+    <h3 class="section-title with-icon">
+      <i class="fas fa-pen"></i> 2. Parâmetros e Argumentos
+    </h3>
+    <div class="card mb-4">
+      <div class="card-body">
+        <p>
+          As funções podem receber parâmetros – podendo ter valores padrão – o
+          que permite maior flexibilidade. Também é possível acessar todos os
+          argumentos passados através do objeto <code>arguments</code> (não
+          utilizado neste exemplo para manter o foco nos conceitos básicos).
+        </p>
+
+        <div class="code-header">Exemplo: Parâmetros e Valores Padrão</div>
+        <pre><code>
+// Função que exibe detalhes de uma tarefa
+function exibirTarefa(id, titulo, prioridade) {
+  console.log(`Tarefa #${id}: ${titulo} (Prioridade: ${prioridade})`);
+}
+exibirTarefa(1, "Estudar JavaScript", "alta");
+
+// Função com valores padrão para parâmetros não informados
+function criarTarefa(titulo, descricao = "Sem descrição", 
+                     prioridade = "média", concluida = false) {
+  return {
+    id: Date.now(), // Gera um ID único com base no timestamp
+    titulo,
+    descricao,
+    prioridade,
+    concluida,
+    criada: new Date()
+  };
+}
+
+const tarefa = criarTarefa("Estudar funções");
+console.log(tarefa);
+</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção 3: Retorno de Valores -->
+  <section class="mb-5">
+    <h3 class="section-title with-icon">
+      <i class="fas fa-reply"></i> 3. Retorno de Valores
+    </h3>
+    <div class="card mb-4">
+      <div class="card-body">
+        <p>
+          Funções podem retornar valores simples ou estruturas de dados
+          complexas (como objetos). Neste exemplo, em vez de usar métodos
+          avançados, utilizamos um loop para calcular estatísticas de um array.
+        </p>
+
+        <div class="code-header">Exemplo: Retorno Múltiplo Usando Loop</div>
+        <pre><code>
+// Função que calcula estatísticas básicas de um array de números
+function calcularEstatisticas(numeros) {
+  let soma = 0;
+  let min = numeros[0];
+  let max = numeros[0];
+  
+  // Itera pelo array para acumular a soma e atualizar os valores de min e max
+  for (let i = 0; i < numeros.length; i++) {
+    soma += numeros[i];
+    if (numeros[i] < min) {
+      min = numeros[i];
+    }
+    if (numeros[i] > max) {
+      max = numeros[i];
+    }
+  }
+  
+  const media = soma / numeros.length;
+  
+  // Retorna os resultados em um objeto
+  return { soma, media, min, max };
+}
+
+const resultados = calcularEstatisticas([5, 10, 15, 20, 25]);
+console.log(resultados);
+</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção 4: Funções Reutilizáveis e Modularização -->
+  <section class="mb-5">
+    <h3 class="section-title with-icon">
+      <i class="fas fa-tools"></i> 4. Funções Reutilizáveis e Modularização
+    </h3>
+    <div class="card mb-4">
+      <div class="card-body">
+        <p>
+          Para facilitar a manutenção e os testes, é importante modularizar o
+          código criando funções reutilizáveis. Um exemplo clássico é uma função
+          para formatação de datas, que pode ser utilizada em diferentes partes
+          da aplicação.
+        </p>
+
+        <div class="code-header">Exemplo: Função para Formatar Data</div>
+        <pre><code>
+// Função para formatar uma data no formato "DD/MM/AAAA"
+function formatarData(data, formato = 'curto') {
+  // Converte para objeto Date, se necessário
+  if (!(data instanceof Date)) {
+    data = new Date(data);
+  }
+  // Verifica se a data é válida
+  if (isNaN(data.getTime())) {
+    return "Data inválida";
+  }
+  const dia = data.getDate().toString().padStart(2, '0');
+  const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+  const ano = data.getFullYear();
+  
+  if (formato === 'curto') {
+    return `${dia}/${mes}/${ano}`;
+  }
+  // Outros formatos podem ser implementados aqui...
+  return `${dia}/${mes}/${ano}`;
+}
+console.log("Data formatada:", formatarData(new Date()));
+</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção 5: Funções Anônimas, Arrow Functions e IIFE -->
+  <section class="mb-5">
+    <h3 class="section-title with-icon">
+      <i class="fas fa-angle-right"></i> 5. Funções Anônimas, Arrow Functions e
+      IIFE
+    </h3>
+    <div class="card mb-4">
+      <div class="card-body">
+        <p>
+  Funções anônimas são comumente usadas como callbacks. Arrow functions
+  oferecem uma sintaxe mais concisa e não criam seu próprio contexto
+  para <code>this</code>, herdando o escopo do ambiente onde foram
+  definidas. Além disso, as IIFE (Immediately Invoked Function
+  Expression) são funções que se auto-invocam para criar um escopo
+  isolado.
+</p>
+
+<p>
+  <strong>Diferença principal entre arrow functions e funções tradicionais:</strong>
+  Arrow functions <strong>não criam seu próprio contexto de <code>this</code></strong>. Em vez disso, elas herdam o valor de <code>this</code> do escopo onde foram definidas.
+  Já funções tradicionais criam um novo contexto de <code>this</code> ao serem invocadas. Essa diferença é fundamental ao trabalhar com objetos, eventos ou métodos que dependem de contexto.
+</p>
+
+<div class="alert alert-info" style="background-color:#e8f4fc; border-left:4px solid #3498db; padding:1rem; border-radius:4px; margin:1rem 0;">
+  <strong><i class="fas fa-info-circle"></i> Dica Importante:</strong><br>
+  Evite usar arrow functions como métodos de objetos ou como funções construtoras (<code>new</code>), pois o <code>this</code> pode não se comportar como o esperado.
+</div>
+
+
+        <div class="code-header">Exemplo: Arrow Function para Subtração</div>
+        <pre><code>
+// Arrow function que retorna a subtração de dois números
+const subtrair = (a, b) => a - b;
+console.log("Subtração:", subtrair(20, 5));
+</code></pre>
+
+        <div class="code-header">
+          Exemplo: Uso de Arrow Function em um Array
+        </div>
+        <pre><code>
+// Utilizando arrow function para dobrar os elementos de um array
+const numeros = [1, 2, 3, 4, 5];
+const dobrados = numeros.map(n => n * 2);
+console.log("Números dobrados:", dobrados);
+</code></pre>
+
+        <div class="code-header">Exemplo: Diferença de Contexto com "this"</div>
+        <pre><code>
+// Demonstração de "this" em função tradicional vs. arrow function
+const contador = {
+  valor: 0,
+  incrementarTradicional: function() {
+    setTimeout(function() {
+      // Neste caso, "this" não se refere ao objeto "contador"
+      console.log("Valor (tradicional):", this.valor);
+    }, 100);
+  },
+  incrementarArrow: function() {
+    setTimeout(() => {
+      // A arrow function preserva o contexto do objeto "contador"
+      this.valor++;
+      console.log("Valor (arrow):", this.valor);
+    }, 100);
+  }
+};
+contador.incrementarTradicional();
+contador.incrementarArrow();
+</code></pre>
+
+        <div class="code-header">Exemplo: Função Auto-invocada (IIFE)</div>
+        <pre><code>
+// IIFE: Função definida e executada imediatamente
+(function() {
+  // Variáveis aqui são locais e não poluem o escopo global
+  const a = 1;
+  const b = 2;
+  console.log("Resultado da IIFE (a + b):", a + b);
+})();
+</code></pre>
+        <p>
+          <strong>Explicação:</strong> A IIFE cria um escopo isolado, útil para
+          inicializações e para evitar conflitos com variáveis globais.
+        </p>
+      </div>
+    </div>
+  </section>
+
+<!-- Seção 6: Escopo e Closure -->
+<section class="mb-5">
+  <h3 class="section-title with-icon">
+    <i class="fas fa-lock"></i> 6. Escopo e Closure
+  </h3>
+  <div class="card mb-4">
+    <div class="card-body">
+      <p>
+        Compreender o <strong>escopo</strong> é essencial para garantir que variáveis não entrem em conflito e para saber onde e quando elas estão disponíveis no código.
+        O escopo define o “alcance” de uma variável dentro de uma função ou bloco.
+      </p>
+
+      <p>
+        No JavaScript, temos três principais tipos de escopo:
+      </p>
+      <ul>
+        <li><strong>Escopo Global</strong>: Variáveis acessíveis de qualquer parte do código.</li>
+        <li><strong>Escopo de Função</strong>: Variáveis acessíveis apenas dentro da função onde foram declaradas.</li>
+        <li><strong>Escopo de Bloco</strong>: Criado por estruturas como <code>if</code>, <code>for</code> e <code>while</code>, válido apenas com <code>let</code> ou <code>const</code>.</li>
+      </ul>
+
+      <p>
+        Já o conceito de <strong>closure</strong> permite que uma função “lembre” do escopo onde ela foi criada, mesmo que seja executada em outro contexto. Isso é muito poderoso para criar funções com dados privados ou personalizados.
+      </p>
+
+      <div class="code-header">Exemplo: Uso de Closure</div>
+      <pre><code>
+// Função que cria um contador privado utilizando closure
+function criarContador() {
+  let contador = 0; // Variável privada
+  return {
+    incrementar: function() {
+      contador++;
+      return contador;
+    },
+    valor: function() {
+      return contador;
+    }
+  };
+}
+
+const meuContador = criarContador();
+console.log("Contador:", meuContador.incrementar()); // 1
+console.log("Contador:", meuContador.incrementar()); // 2
+</code></pre>
+
+      <p>
+        <strong>Explicação:</strong> Mesmo após a execução da função <code>criarContador</code>, as funções internas <code>incrementar</code> e <code>valor</code> ainda têm acesso à variável <code>contador</code>. Isso acontece graças ao closure — a função "lembra" do ambiente em que foi criada.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Seção 7: Funções de Ordem Superior -->
+  <section class="mb-5">
+    <h3 class="section-title with-icon">
+      <i class="fas fa-layer-group"></i> 7. Funções de Ordem Superior
+    </h3>
+    <div class="card mb-4">
+      <div class="card-body">
+        <p>
+          Funções de ordem superior recebem ou retornam outras funções,
+          facilitando a criação de filtros, composições e outras operações que
+          tornam o código mais modular.
+        </p>
+
+        <div class="code-header">Exemplo: Função para Filtragem</div>
+        <pre><code>
+// Função que recebe um array e um callback para filtrar os elementos
+function filtrarTarefas(tarefas, callback) {
+  return tarefas.filter(callback);
+}
+
+const tarefas = [
+  { id: 1, titulo: "Estudar JS", concluida: false },
+  { id: 2, titulo: "Implementar TaskMaster", concluida: true }
+];
+const pendentes = filtrarTarefas(tarefas, t => !t.concluida);
+console.log("Tarefas pendentes:", pendentes.length);
+</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção 8: Recursão -->
+  <section class="mb-5">
+    <h3 class="section-title with-icon">
+      <i class="fas fa-sync-alt"></i> 8. Recursão
+    </h3>
+    <div class="card mb-4">
+      <div class="card-body">
+        <p>
+          A recursão permite que uma função se chame a si mesma para resolver
+          problemas divididos em subproblemas menores. Um exemplo clássico é o
+          cálculo do fatorial.
+        </p>
+
+        <div class="code-header">Exemplo: Função Recursiva para Fatorial</div>
+        <pre><code>
+// Função recursiva que calcula o fatorial de um número
+function fatorial(n) {
+  if (n === 0 || n === 1) return 1;  // Caso base
+  return n * fatorial(n - 1);        // Chamada recursiva
+}
+console.log("Fatorial de 5:", fatorial(5));
+</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção 9: Funções Construtoras e Herança -->
+  <section class="mb-5">
+    <h3 class="section-title with-icon">
+      <i class="fas fa-building"></i> 9. Funções Construtoras e Herança
+    </h3>
+    <div class="card mb-4">
+      <div class="card-body">
+        <p>
+          Funções construtoras são utilizadas para criar objetos com
+          propriedades e métodos comuns. A herança por protótipo permite que
+          objetos compartilhem métodos, promovendo a reutilização do código.
+        </p>
+
+        <div class="code-header">Exemplo: Função Construtora</div>
+        <pre><code>
+// Função construtora para criar uma tarefa
+function Tarefa(titulo, descricao, prioridade) {
+  this.id = Date.now();
+  this.titulo = titulo;
+  this.descricao = descricao || "";
+  this.prioridade = prioridade || "média";
+  this.concluida = false;
+  this.criada = new Date();
+}
+// Método para marcar a tarefa como concluída
+Tarefa.prototype.concluir = function() {
+  this.concluida = true;
+  return `Tarefa "${this.titulo}" concluída!`;
+};
+
+// Função construtora para tarefas recorrentes (herda de Tarefa)
+function TarefaRecorrente(titulo, descricao, prioridade, frequencia) {
+  Tarefa.call(this, titulo, descricao, prioridade);
+  this.frequencia = frequencia;
+}
+TarefaRecorrente.prototype = Object.create(Tarefa.prototype);
+TarefaRecorrente.prototype.constructor = TarefaRecorrente;
+
+const tarefaRecorrente = new TarefaRecorrente("Backup", "Backup semanal", "média", "semanal");
+console.log(tarefaRecorrente.concluir());
+</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção 10: Padrões Funcionais -->
+  <section class="mb-5">
+    <h3 class="section-title with-icon">
+      <i class="fas fa-layer-group"></i> 10. Padrões Funcionais
+    </h3>
+    <div class="card mb-4">
+      <div class="card-body">
+        <p>
+          Padrões funcionais, como a memoização, ajudam a otimizar funções
+          pesadas ao evitar cálculos repetidos, armazenando os resultados em
+          cache.
+        </p>
+
+        <div class="code-header">Exemplo: Memoization</div>
+        <pre><code>
+// Função de memoização que utiliza cache para evitar cálculos repetidos
+function memoize(fn) {
+  const cache = {};
+  return function(...args) {
+    const key = JSON.stringify(args);
+    if (cache[key]) {
+      return cache[key];
+    }
+    const result = fn(...args);
+    cache[key] = result;
+    return result;
+  };
+}
+
+// Função recursiva para calcular Fibonacci
+function calcularFibonacci(n) {
+  if (n <= 1) return n;
+  return calcularFibonacci(n - 1) + calcularFibonacci(n - 2);
+}
+const fibonacciMemoizado = memoize(calcularFibonacci);
+console.log("Fibonacci memoizado (n=10):", fibonacciMemoizado(10));
+</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção 11: Exercícios Práticos -->
+  <section class="mb-5">
+    <h3 class="section-title with-icon">
+      <i class="fas fa-chalkboard-teacher"></i> 11. Exercícios Práticos
+    </h3>
+
+    <!-- Exercício 1 -->
+    <div class="desafio">
+      <h4>Exercício 1: Gerador de IDs</h4>
+      <p>
+        Implemente uma função <code>criarGeradorID</code> que retorne uma função
+        geradora de IDs sequenciais. Cada chamada deve retornar um novo ID.
+      </p>
+      <details>
+        <summary>Ver solução</summary>
+        <div class="code-header">Exemplo de Resolução</div>
+        <pre><code>function criarGeradorID(valorInicial = 1) {
+  let contador = valorInicial;
+  // Retorna uma função que incrementa e retorna o ID
+  return function() {
+    return contador++;
+  };
+}
+
+const gerarID = criarGeradorID(100);
+console.log("ID 1:", gerarID()); // 100
+console.log("ID 2:", gerarID()); // 101
+</code></pre>
+      </details>
+    </div>
+
+    <!-- Exercício 2 -->
+    <div class="desafio">
+      <h4>Exercício 2: Tempo Restante</h4>
+      <p>
+        Crie uma função <code>calcularTempoRestante</code> que, dada uma data
+        final, retorne o tempo restante em dias, horas, minutos e segundos. Se o
+        prazo tiver expirado, retorne uma mensagem informando que o prazo
+        expirou.
+      </p>
+      <details>
+        <summary>Ver solução</summary>
+        <div class="code-header">Exemplo de Resolução</div>
+        <pre><code>function calcularTempoRestante(dataFinal) {
+  dataFinal = new Date(dataFinal);
+  const agora = new Date();
+  const diff = dataFinal - agora;
+  if (diff <= 0) {
+    return { expirou: true, mensagem: "O prazo expirou" };
+  }
+  const segundos = Math.floor((diff / 1000) % 60);
+  const minutos = Math.floor((diff / (1000 * 60)) % 60);
+  const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+  return { dias, horas, minutos, segundos, expirou: false };
+}
+console.log(calcularTempoRestante("2025-12-31"));
+</code></pre>
+      </details>
+    </div>
+
+    <!-- Exercício 3 -->
+    <div class="desafio">
+      <h4>Exercício 3: Soma dos Elementos de um Array</h4>
+      <p>
+        Crie uma função <code>somaArray</code> que receba um array de números e
+        retorne a soma total utilizando um loop.
+      </p>
+      <details>
+        <summary>Ver solução</summary>
+        <div class="code-header">Exemplo de Resolução</div>
+        <pre><code>function somaArray(numeros) {
+  let soma = 0;
+  // Itera pelo array e acumula a soma dos elementos
+  for (let i = 0; i < numeros.length; i++) {
+    soma += numeros[i];
+  }
+  return soma;
+}
+
+const valores = [10, 20, 30, 40];
+console.log("Soma dos elementos:", somaArray(valores));
+</code></pre>
+      </details>
+    </div>
+
+    <!-- Exercício 4 -->
+    <div class="desafio">
+      <h4>Exercício 4: Inverter uma String com Recursão</h4>
+      <p>
+        Crie uma função <code>inverterString</code> que receba uma string e
+        retorne a string invertida utilizando recursão.
+      </p>
+      <details>
+        <summary>Ver solução</summary>
+        <div class="code-header">Exemplo de Resolução</div>
+        <pre><code>function inverterString(str) {
+  // Caso base: se a string estiver vazia, retorna-a
+  if (str === "") return "";
+  // Retorna o último caractere concatenado com a inversão do restante da string
+  return str.slice(-1) + inverterString(str.slice(0, -1));
+}
+
+console.log("String invertida:", inverterString("TaskMaster"));
+</code></pre>
+      </details>
+    </div>
+
+    <!-- Exercício 5 -->
+    <div class="desafio">
+      <h4>Exercício 5: Filtrar Tarefas por Prioridade</h4>
+      <p>
+        Crie uma função de ordem superior <code>filtrarPorPrioridade</code> que
+        receba um array de tarefas e uma prioridade, retornando um novo array
+        com as tarefas que possuem essa prioridade.
+      </p>
+      <details>
+        <summary>Ver solução</summary>
+        <div class="code-header">Exemplo de Resolução</div>
+        <pre><code>function filtrarPorPrioridade(tarefas, prioridade) {
+  // Filtra as tarefas com a prioridade informada
+  return tarefas.filter(tarefa => tarefa.prioridade === prioridade);
+}
+
+const listaTarefas = [
+  { id: 1, titulo: "Estudar JS", prioridade: "alta", concluida: false },
+  { id: 2, titulo: "Revisar CSS", prioridade: "média", concluida: true },
+  { id: 3, titulo: "Praticar HTML", prioridade: "alta", concluida: false }
+];
+
+console.log("Tarefas de prioridade alta:", filtrarPorPrioridade(listaTarefas, "alta"));
+</code></pre>
+      </details>
+    </div>
+  </section>
+
+  <!-- Seção 12: Conclusão -->
+  <section class="mb-5">
+    <h3 class="section-title with-icon">
+      <i class="fas fa-check-circle"></i> 12. Conclusão
+    </h3>
+    <div class="card mb-4">
+      <div class="card-body">
+        <p>
+          Nesta aula, exploramos como declarar e invocar funções de diversas
+          maneiras – seja de forma tradicional, por expressão, utilizando arrow
+          functions ou funções auto-invocadas (IIFE). Também vimos como passar
+          parâmetros, retornar valores, compreender escopo, hoisting e closures,
+          e como aplicar funções de ordem superior. Tudo isso contribui para um
+          código mais modular, organizado e reutilizável.
+        </p>
+        <p>
+          Esses conceitos serão a base para os próximos conteúdos, onde
+          aprofundaremos técnicas de manipulação de dados e métodos mais
+          avançados.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESTILOS CSS -->
+  <style>
+    /* Base */
+    :root {
+      --primary-color: #3498db;
+      --primary-color-dark: #2980b9;
+      --secondary-color: #2c3e50;
+      --accent-color: #e74c3c;
+      --success-color: #2ecc71;
+      --info-color: #3498db;
+      --white: #fff;
+      --gray-100: #f8f9fa;
+      --gray-200: #e9ecef;
+      --gray-600: #6c757d;
+      --border-radius: 0.5rem;
+      --border-radius-sm: 0.25rem;
+      --box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+      --transition-base: all 0.2s ease-in-out;
+    }
+    .lesson-content {
+      padding: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      font-family: Arial, sans-serif;
+    }
+    .intro-box {
+      background-color: var(--gray-100);
+      padding: 1.5rem;
+      border-left: 5px solid var(--primary-color);
+      border-radius: var(--border-radius-sm);
+      margin-bottom: 1.5rem;
+    }
+    .section-title.with-icon {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--secondary-color);
+      border-bottom: 2px solid var(--gray-200);
+      padding-bottom: 0.5rem;
+    }
+    .section-title.with-icon i {
+      color: var(--primary-color);
+    }
+    .card {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .card-body {
+      padding: 1.5rem;
+    }
+    code {
+      font-family: monospace;
+    }
+
+    details {
+      margin-top: 10px;
+    }
+    summary {
+      cursor: pointer;
+      color: var(--primary-color-dark);
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    summary:hover {
+      text-decoration: underline;
+    }
+    .desafio {
+      background-color: #f7f8e8;
+      border-left: 4px solid #e2c94a;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .desafio h4 {
+      margin-top: 0;
+      color: var(--primary-color);
+    }
+  </style>
+</article>
